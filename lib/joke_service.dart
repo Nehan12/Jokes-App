@@ -22,7 +22,7 @@ class JokeService {
         jokes.forEach((joke) => print(joke.joke));
 
         // Cache the jokes
-        _cacheJokes(jokes);
+        await _cacheJokes(jokes);
 
         // Return only the first 5 jokes
         return jokes.take(5).toList();
@@ -44,7 +44,9 @@ class JokeService {
     if (jokesJson != null) {
       print('Jokes retrieved from cache');
       List<dynamic> jokesList = json.decode(jokesJson);
-      return jokesList.map((jokeJson) => Joke.fromJson(jokeJson)).toList();
+      List<Joke> jokes = jokesList.map((jokeJson) => Joke.fromJson(jokeJson)).toList();
+      // Return only the first 5 jokes
+      return jokes.take(5).toList();
     } else {
       print('No jokes found in cache');
       return [];

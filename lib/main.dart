@@ -48,7 +48,7 @@ class _JokesPageState extends State<JokesPage> {
   // Refresh jokes
   void _refreshJokes() {
     setState(() {
-      jokesFuture = jokeService.fetchJokes();
+      jokesFuture = _loadJokes();
     });
   }
 
@@ -56,8 +56,23 @@ class _JokesPageState extends State<JokesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Jokes for the Day'),
+        title: const Text(
+          'Jokes for the Day',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: Colors.teal,
+        centerTitle: true,
+        elevation: 10,
+        shadowColor: Colors.black,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
+        ),
       ),
       body: FutureBuilder<List<Joke>>(
         future: jokesFuture,
@@ -72,14 +87,31 @@ class _JokesPageState extends State<JokesPage> {
               itemCount: jokes.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                   child: Card(
                     elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        jokes[index].joke,
-                        style: const TextStyle(fontSize: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Joke ${index + 1}',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.teal,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            jokes[index].joke,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ],
                       ),
                     ),
                   ),
